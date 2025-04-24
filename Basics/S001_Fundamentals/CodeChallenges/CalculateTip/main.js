@@ -2,7 +2,7 @@
 
 function getTip(value) {
     if (!Number.isFinite(value)) {
-        throw new Error("Parameter must be a number.");
+        throw new Error("Argument must be a number.");
     }
 
     const lowerTip = 15 / 100;
@@ -23,7 +23,7 @@ function getTip(value) {
 
 function getTotalBill(value) {
     if (!Number.isFinite(value)) {
-        throw new Error("Parameter must be a number.");
+        throw new Error("Argument must be a number.");
     }
 
     return value + getTip(value);

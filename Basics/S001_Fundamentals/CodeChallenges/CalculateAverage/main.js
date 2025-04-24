@@ -2,7 +2,7 @@
 
 function getAverage(numbers) {
     if (!Array.isArray(numbers)) {
-        throw new Error("Parameter must be an array.");
+        throw new Error("Argument must be an array.");
     }
 
     let sum = 0;
@@ -11,7 +11,7 @@ function getAverage(numbers) {
 
     for (const number of numbers) {
         if (!Number.isFinite(number)) {
-            throw new Error("Parameter must contain only numbers.");
+            throw new Error("Argument must contain only numbers.");
         }
 
         sum += number;
