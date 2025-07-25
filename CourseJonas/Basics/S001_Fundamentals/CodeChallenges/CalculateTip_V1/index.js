@@ -33,7 +33,7 @@ const bill = 275;
 const tip = getTip(bill);
 const total = getTotalBill(bill);
 
-const msg = `The bill was ${bill}, the tips was ${tip.toFixed(
+const msg = `The bill was ${bill}, the tip was ${tip.toFixed(
     2
 )} and the total was ${total.toFixed(2)}`;
 

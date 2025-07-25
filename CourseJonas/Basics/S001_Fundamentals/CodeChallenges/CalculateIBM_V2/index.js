@@ -1,6 +1,6 @@
 "use strict";
 
-function getBmi(weight, height) {
+const getBmi = function (weight, height) {
     if (!Number.isFinite(weight)) {
         throw new Error("Argument 'weight' is not a number.");
     }
@@ -18,7 +18,7 @@ function getBmi(weight, height) {
     }
 
     return weight / (height * height);
-}
+};
 
 const weightMark = 78;
 const heightMark = 1.69;
