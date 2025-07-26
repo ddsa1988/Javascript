@@ -1,1 +1,45 @@
+* {
+    margin: 0;
+    padding: 0;
+}
 
+.container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.product {
+    text-align: center;
+}
+
+.product-img {
+    width: 15em;
+}
+
+.product-description {
+    margin-top: 10px;
+    font-size: 24px;
+}
+
+.product-price {
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    border: 2px solid black;
+    border-radius: 20px;
+}
+
+.error {
+    display: block;
+    text-align: center;
+}
+
+#error-msg {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: rgb(200, 0, 0);
+}

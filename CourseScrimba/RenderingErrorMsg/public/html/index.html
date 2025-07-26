@@ -4,12 +4,25 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Rendering error message</title>
-        <link rel="stylesheet" href="./style.css" />
+        <link rel="stylesheet" href="../css/style.css" />
         <script defer src="../../src/index.js"></script>
     </head>
     <body>
-        <img src="" alt="Image of a shoe" />
-        <h3>Nike shoe</h3>
-        <button>Purchase - $149</button>
+        <div class="container">
+            <div class="product">
+                <img
+                    class="product-img"
+                    src="../img/NikeShoe.jpg"
+                    alt="Image of a shoe"
+                />
+                <h3 class="product-description">Nike shoe</h3>
+                <button class="product-price" id="purchase-btn">
+                    Purchase - $149
+                </button>
+            </div>
+            <div class="error">
+                <p id="error-msg"></p>
+            </div>
+        </div>
     </body>
 </html>
