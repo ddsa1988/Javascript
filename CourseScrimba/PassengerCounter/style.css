@@ -21,11 +21,6 @@ h2 {
     margin-bottom: 20px;
 }
 
-h3 {
-    font-size: 25px;
-    margin-top: 15px;
-}
-
 button {
     border: none;
     padding-top: 10px;
@@ -44,4 +39,8 @@ button {
 
 #save-btn {
     background: darkgreen;
+}
+
+#save-el {
+    margin-top: 15px;
 }
