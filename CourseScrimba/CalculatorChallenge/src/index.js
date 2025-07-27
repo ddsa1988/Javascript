@@ -8,60 +8,54 @@ const subBtn = document.getElementById("sub-btn");
 const divBtn = document.getElementById("div-btn");
 const multiBtn = document.getElementById("multi-btn");
 
-const result = document.getElementById("result");
+const textResult = document.getElementById("text-result");
 
-const addition = function () {
+const operators = {
+    add: (x, y) => x + y,
+    subtract: (x, y) => x - y,
+    multiply: (x, y) => x * y,
+    divide: (x, y) => x / y,
+};
+
+const operatorsName = {
+    add: "add",
+    subtract: "subtract",
+    multiply: "multiply",
+    divide: "divide",
+};
+
+const calculate = function (operator) {
     const num1 = Number(num1El.value);
     const num2 = Number(num2El.value);
 
     if (!(Number.isFinite(num1) && Number.isFinite(num2))) {
+        textResult.textContent = "Invalid numbers.";
         return;
     }
 
-    result.textContent = `Sum: ${num1 + num2}`;
-};
-
-const subtraction = function () {
-    const num1 = Number(num1El.value);
-    const num2 = Number(num2El.value);
-
-    if (!(Number.isFinite(num1) && Number.isFinite(num2))) {
+    if (operators[operator] == null) {
+        textResult.textContent = "Invalid operator.";
         return;
     }
 
-    result.textContent = `Sum: ${num1 - num2}`;
-};
+    const result = operators[operator](num1, num2);
 
-const division = function () {
-    const num1 = Number(num1El.value);
-    const num2 = Number(num2El.value);
-
-    if (!(Number.isFinite(num1) && Number.isFinite(num2))) {
+    if (!Number.isFinite(result)) {
+        textResult.textContent = "Error to calculate result.";
         return;
     }
 
-    if (num2 === 0) {
-        result.textContent = "Error: Division by zero.";
-    } else {
-        result.textContent = `Sum: ${num1 / num2}`;
-    }
+    textResult.textContent =
+        operator.charAt(0).toUpperCase() +
+        operator.substring(1) +
+        ": " +
+        result;
 };
 
-const multiplication = function () {
-    const num1 = Number(num1El.value);
-    const num2 = Number(num2El.value);
+addBtn.addEventListener("click", () => calculate(operatorsName.add));
 
-    if (!(Number.isFinite(num1) && Number.isFinite(num2))) {
-        return;
-    }
+subBtn.addEventListener("click", () => calculate(operatorsName.subtract));
 
-    result.textContent = `Sum: ${num1 * num2}`;
-};
+divBtn.addEventListener("click", () => calculate(operatorsName.divide));
 
-addBtn.addEventListener("click", addition);
-
-subBtn.addEventListener("click", subtraction);
-
-divBtn.addEventListener("click", division);
-
-multiBtn.addEventListener("click", multiplication);
+multiBtn.addEventListener("click", () => calculate(operatorsName.multiply));
