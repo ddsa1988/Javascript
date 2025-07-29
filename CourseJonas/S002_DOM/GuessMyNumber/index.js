@@ -16,6 +16,7 @@ const maxNumber = 20;
 const startScore = 20;
 
 let randomNumber = 0;
+let actualScore = 0;
 let maxScore = 0;
 
 const getRandomNumber = function (min, max) {
@@ -29,24 +30,58 @@ const getRandomNumber = function (min, max) {
 const initGame = function () {
     number.textContent = "?";
     guess.value = "";
+    guess.disabled = false;
+    btnCheck.disabled = false;
     between.textContent = `(Between ${minNumber} and ${maxNumber})`;
     message.textContent = "Start guessing...";
     score.textContent = startScore.toString();
     highScore.textContent = maxScore.toString();
 
+    actualScore = startScore;
     randomNumber = getRandomNumber(minNumber, maxNumber);
+    document.body.style.backgroundColor = "#222";
+};
+
+const gameOver = function () {
+    guess.disabled = true;
+    btnCheck.disabled = true;
+    number.textContent = randomNumber;
+    highScore.textContent = maxScore;
+};
+
+const checkGuess = function () {
+    const guessNumber = Number(guess.value);
+
+    if (!(Number.isFinite(guessNumber) && guessNumber > 0)) {
+        message.textContent = "⛔️ No number!";
+        return;
+    }
+
+    if (guessNumber === randomNumber) {
+        if (actualScore > maxScore) {
+            maxScore = actualScore;
+        }
+
+        message.textContent = "🎉 Correct Number!";
+        document.body.style.backgroundColor = "#60b347";
+        gameOver();
+
+        return;
+    }
+
+    score.textContent = --actualScore;
+
+    message.textContent =
+        guessNumber < randomNumber ? "📉 Too low" : "📈 Too high!";
+
+    if (actualScore === 0) {
+        message.textContent = "💥 You lost the game!";
+        gameOver();
+    }
 };
 
 addEventListener("load", initGame);
 
 btnAgain.addEventListener("click", initGame);
 
-btnCheck.addEventListener("click", () => {
-    console.log(number.textContent);
-    console.log(guess.value);
-    console.log(between.textContent);
-    console.log(message.textContent);
-    console.log(score.textContent);
-    console.log(highScore.textContent);
-    console.log(randomNumber);
-});
+btnCheck.addEventListener("click", checkGuess);
