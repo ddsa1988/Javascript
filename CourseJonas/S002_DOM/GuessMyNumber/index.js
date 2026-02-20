@@ -24,7 +24,7 @@ const getRandomNumber = function (min, max) {
         return Number.MIN_SAFE_INTEGER;
     }
 
-    return Math.floor(Math.random() * (max - min) + min);
+    return Math.floor(Math.random() * (max - min + 1) + min);
 };
 
 const initGame = function () {
@@ -45,8 +45,8 @@ const initGame = function () {
 const gameOver = function () {
     guess.disabled = true;
     btnCheck.disabled = true;
-    number.textContent = randomNumber;
-    highScore.textContent = maxScore;
+    number.textContent = randomNumber.toString();
+    highScore.textContent = maxScore.toString();
 };
 
 const checkGuess = function () {
