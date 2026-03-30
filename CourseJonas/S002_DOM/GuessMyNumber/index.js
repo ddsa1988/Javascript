@@ -64,6 +64,7 @@ const checkGuess = function () {
 
         message.textContent = "🎉 Correct Number!";
         document.body.style.backgroundColor = "#60b347";
+        number.style.width = "30rem";
         gameOver();
 
         return;
