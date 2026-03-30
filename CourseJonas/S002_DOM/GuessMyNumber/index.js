@@ -75,10 +75,12 @@ const checkGuess = function () {
     message.textContent =
         guessNumber < randomNumber ? "📉 Too low" : "📈 Too high!";
 
-    if (actualScore === 0) {
-        message.textContent = "💥 You lost the game!";
-        gameOver();
+    if (actualScore > 0) {
+        return;
     }
+
+    message.textContent = "💥 You lost the game!";
+    gameOver();
 };
 
 addEventListener("load", initGame);
