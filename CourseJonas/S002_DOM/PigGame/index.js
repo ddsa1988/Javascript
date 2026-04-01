@@ -40,11 +40,11 @@ const initGame = function () {
 };
 
 const getRandomPlayer = function () {
-    return Math.floor(Math.random() * numberOfPlayers);
+    return Math.trunc(Math.random() * numberOfPlayers);
 };
 
 const getRandomDiceNumber = function () {
-    return Math.floor(Math.random() * (numberOfDiceFaces - 1) + 1);
+    return Math.trunc(Math.random() * (numberOfDiceFaces - 1) + 1);
 };
 
 const switchPlayer = function () {
