@@ -23,8 +23,6 @@ currentScores[0] = document.querySelector("#current--0");
 currentScores[1] = document.querySelector("#current--1");
 
 const initGame = function () {
-    currentPlayer = getRandomPlayer();
-
     for (let i = 0; i < numberOfPlayers; i++) {
         scores[i].textContent = 0;
         currentScores[i].textContent = 0;
@@ -32,6 +30,7 @@ const initGame = function () {
         players[i].classList.remove("player--winner");
     }
 
+    currentPlayer = getRandomPlayer();
     players[currentPlayer].classList.add("player--active");
     dice.classList.add("hidden");
 
@@ -40,11 +39,11 @@ const initGame = function () {
 };
 
 const getRandomPlayer = function () {
-    return Math.trunc(Math.random() * numberOfPlayers);
+    return Math.floor(Math.random() * numberOfPlayers);
 };
 
 const getRandomDiceNumber = function () {
-    return Math.trunc(Math.random() * (numberOfDiceFaces - 1) + 1);
+    return Math.floor(Math.random() * (numberOfDiceFaces - 1) + 1);
 };
 
 const switchPlayer = function () {
