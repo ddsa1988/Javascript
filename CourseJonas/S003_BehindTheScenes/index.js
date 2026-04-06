@@ -9,9 +9,9 @@
 
 console.log(this); // In the global scope, 'this' refers to the global object (window in browsers).
 
-function regularFunction() {
+const regularFunction = function () {
     console.log(this); // In a regular function, 'this' will be undefined in strict mode, and will refer to the global object in non-strict mode.
-}
+};
 
 regularFunction();
 
@@ -27,3 +27,30 @@ const obj = {
 
 obj.method();
 obj.arrowFunction();
+
+const anotherObj = {
+    anotherObjProperty: "I am another object property",
+    method: obj.method,
+};
+
+anotherObj.method(); // 'this' will refer to 'anotherObj' because the method is called on 'anotherObj'.
+
+const diego = {
+    name: "Diego",
+
+    method() {
+        const greet1 = function () {
+            console.log(this); // 'this' will be undefined in strict mode, and will refer to the global object in non-strict mode, because 'greet1' is a regular function and is called without an object context.
+        };
+
+        greet1();
+
+        const greet2 = () => {
+            console.log(this); // 'this' will refer to 'diego' because 'greet2' is an arrow function and takes 'this' from the surrounding context, which is the 'method' function where 'this' refers to 'diego'.
+        };
+
+        greet2();
+    },
+};
+
+diego.method();
