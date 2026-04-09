@@ -17,15 +17,21 @@ const restaurant = {
     console.log(first, second);
 }
 
+console.log();
+
 {
     const [first, , , last] = restaurant.categories;
     console.log(first, last);
 }
 
+console.log();
+
 {
     const [first, second] = restaurant.order(2, 0);
     console.log(first, second);
 }
+
+console.log();
 
 {
     const nested = [2, 4, [5, 6]];
