@@ -73,7 +73,7 @@ const checkGuess = function () {
     score.textContent = --actualScore;
 
     message.textContent =
-        guessNumber < randomNumber ? "📉 Too low" : "📈 Too high!";
+        guessNumber < randomNumber ? "📉 Too low!" : "📈 Too high!";
 
     if (actualScore > 0) {
         return;
