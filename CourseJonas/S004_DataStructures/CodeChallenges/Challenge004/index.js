@@ -21,13 +21,13 @@ const underscoreCaseToCamelCase = function (content) {
         }
 
         const startText = text.slice(0, index);
-        const endText = text.slice(index + 2);
         const charUpperCase = text.charAt(index + 1).toUpperCase();
+        const endText = text.slice(index + 2);
 
         text = startText + charUpperCase + endText;
     }
 
-    return text;
+    return text.trim();
 };
 
 addEventListener("load", () => {
@@ -49,7 +49,7 @@ button.addEventListener("click", () => {
     for (const word of words) {
         if (word.length <= wordMaxLength) continue;
 
-        wordMaxLength = word.length;
+        wordMaxLength = word.trim().length;
     }
 
     for (let i = 0; i < words.length; i++) {
