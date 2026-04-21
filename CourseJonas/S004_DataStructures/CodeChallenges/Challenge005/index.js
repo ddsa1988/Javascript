@@ -8,7 +8,33 @@ const flightsText =
 //   🔴 Delayed Arrival from HEL to FAO (12h05)
 //            Departure from FAO to LIS (12h30)
 
-const flights = flightsText.split("+");
+const getFlightString = function (content) {
+    const words = content.trim().split(";");
 
-console.log(flights);
-console.log(flights[0].split(";"));
+    if (words.length < 4) return content;
+
+    const flightData =
+        words[0].replaceAll("_", " ").trim() +
+        " from " +
+        words[1].slice(0, 3).toUpperCase() +
+        " to " +
+        words[2].slice(0, 3).toUpperCase() +
+        " (" +
+        words[3] +
+        ")";
+
+    return flightData;
+};
+
+const flights = flightsText.split("+");
+let maxLength = 0;
+
+for (const flight of flights) {
+    if (flight.length <= maxLength) continue;
+
+    maxLength = flight.length;
+}
+
+for (const flight of flights) {
+    console.log(getFlightString(flight).padStart(maxLength, " "));
+}
