@@ -35,3 +35,66 @@ const isContributor = function (author) {
 
 console.log(isContributor("Julie Sussman (Contributor)"));
 console.log(isContributor("Robert Sedgewick"));
+
+// Exercise 5: Write a function called normalizeAuthorName that takes an author's name (string) as an argument, and returns the same string, but the first name and last name are capitalized, and the "(Contributor)" part is removed (if exists).
+
+const normalizeAuthorName = function (author) {
+    if (typeof author !== "string") return "";
+
+    const fullNameArr = author
+        .toLowerCase()
+        .replace("(contributor)", "")
+        .trim()
+        .split(" ");
+
+    let normalizeName = "";
+
+    for (const name of fullNameArr) {
+        if (name.length === 0) continue;
+
+        normalizeName = normalizeName.concat(
+            name[0].toUpperCase(),
+            name.slice(1),
+            " ",
+        );
+    }
+
+    return normalizeName;
+};
+
+console.log(normalizeAuthorName("  JuliE sussMan (Contributor) Alex"));
+
+// Exercise 6: Take the title of the second book (books[1]) from the books array, and replace the word "Programs" with "Software". Assign the new string to the newBookTitle variable.
+
+const bookTitle = books[1].title;
+const newBookTitle = bookTitle.replace("Programs", "Software");
+
+console.log(newBookTitle);
+
+// Exercise 7: Write a function called logBookTheme that takes book's title (string), and logs to the console:
+// "This book is about computers" if the title starts with the word "computer", "This book is about algorithms and data structures" if the title includes both the "algorithms" and "structures" words, and, "This book is about some systems, but definitely not about operating systems" if the title ends with the word "system" or "systems", but doesn't include the word "operating".
+
+const logBookTheme = function (bookTitle) {
+    if (typeof bookTitle !== "string") return;
+
+    const title = bookTitle.trim().toLowerCase();
+
+    if (title.startsWith("computer")) {
+        console.log("This book is about computers.");
+        return;
+    }
+
+    if (title.includes("algorithms") && title.includes("structures")) {
+        console.log("This book is about algorithms and data structures.");
+        return;
+    }
+
+    if (
+        (title.endsWith("system") || title.endsWith("systems")) &&
+        !title.includes("operating")
+    ) {
+        console.log(
+            "This book is about some systems, but definitely not about operating systems.",
+        );
+    }
+};
