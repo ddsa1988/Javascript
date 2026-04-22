@@ -30,3 +30,8 @@ hasExamplesInJava(books[1]);
 hasExamplesInJava(books[3]);
 
 // Exercise 2: Some of the book objects have the onlineContent property, which is either true or false. Loop over the books array, and for the books that provide online content, log to the console a string in this format: "${title}" provides online content. Use short-circuiting.
+
+for (const book of books) {
+    book.onlineContent === true &&
+        console.log(`${book.title} provides online content.`);
+}
