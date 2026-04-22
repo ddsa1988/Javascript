@@ -98,3 +98,62 @@ const logBookTheme = function (bookTitle) {
         );
     }
 };
+
+// Exercise 8: Below is the bookCategories variable that stores a string of categories. Each category is separated with a semicolon, for example, in a string "science;computing", 'science' and 'computing' are separate categories.
+
+// Write a function called logBookCategories that takes a string of categories separated with semicolons, and logs each category to the console (as separate strings).
+
+const logBookCategories = function (content) {
+    if (typeof content !== "string") return;
+
+    const categories = content.split(";");
+
+    for (const category of categories) {
+        console.log(category);
+    }
+};
+
+const bookCategories =
+    "science;computing;computer science;algorithms;business;operating systems;networking;electronics";
+
+logBookCategories(bookCategories);
+
+// Exercise 9: rite a function called getKeywordsAsString that takes the books array as an argument, collects keywords from each book, removes duplicates, and then joins them to create a single string where keywords are separated by a semicolon.
+
+const getKeywordsAsString = function (arr) {
+    if (!Array.isArray(arr)) return;
+
+    const keywords = [];
+
+    for (const book of books) {
+        keywords.push(...book.keywords);
+    }
+
+    const uniqueKeywords = [...new Set(keywords)];
+
+    return uniqueKeywords.join("; ");
+};
+
+console.log(getKeywordsAsString(books));
+
+// Exercise 10: Below is the bookChapters array that contains inner arrays. Each inner array consists of a chapter's title, and the number of a page, for example, in ['The Basics', 14], 'The Basics' is the chapter's title, and 14 is the number of a page.
+
+// Write a function called logBookChapters that takes an array of arrays (like bookChapters) as an argument, and logs each chapter's name to the console together with the page number.
+
+const logBookChapters = function (arr) {
+    if (!Array.isArray(arr)) return;
+
+    for (const [chapter, pages] of arr) {
+        console.log(`${chapter.padEnd(20, "_")} ${pages}`);
+    }
+};
+
+const bookChapters = [
+    ["The Basics", 14],
+    ["Sorting", 254],
+    ["Searching", 372],
+    ["Graphs", 526],
+    ["Strings", 706],
+];
+
+logBookChapters(bookChapters);
