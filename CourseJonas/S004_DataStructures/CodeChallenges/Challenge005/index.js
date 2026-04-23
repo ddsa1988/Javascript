@@ -9,18 +9,16 @@ const flightsText =
 //            Departure from FAO to LIS (12h30)
 
 const getFlightString = function (content) {
-    const words = content.trim().split(";");
-
-    if (words.length < 4) return content;
+    const [type, from, to, time] = content.trim().split(";");
 
     const flightData =
-        words[0].replaceAll("_", " ").trim() +
+        type.replaceAll("_", " ").trim() +
         " from " +
-        words[1].slice(0, 3).toUpperCase() +
+        from.slice(0, 3).toUpperCase() +
         " to " +
-        words[2].slice(0, 3).toUpperCase() +
+        to.slice(0, 3).toUpperCase() +
         " (" +
-        words[3] +
+        time.replace(":", "h") +
         ")";
 
     return flightData;
