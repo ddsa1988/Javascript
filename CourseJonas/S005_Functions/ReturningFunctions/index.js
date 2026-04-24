@@ -1,8 +1,41 @@
 "use strict";
 
-const sum = (a, b) => a + b;
+const sum = function (a, b) {
+    if (!Number.isFinite(a) || !Number.isFinite(b)) {
+        throw new Error("Parameter must be only numbers.");
+    }
 
-const sub = (a, b) => a - b;
+    return a + b;
+};
+
+const sub = function (a, b) {
+    if (!Number.isFinite(a) || !Number.isFinite(b)) {
+        throw new Error("Parameter must be only numbers.");
+    }
+
+    return a - b;
+};
+
+const multiply = function (a, b) {
+    if (!Number.isFinite(a) || !Number.isFinite(b)) {
+        throw new Error("Parameter must be only numbers.");
+    }
+
+    return a * b;
+};
+
+const division = function (a, b) {
+    if (!Number.isFinite(a) || !Number.isFinite(b)) {
+        throw new Error("Parameter must be only numbers.");
+    }
+
+    if (b === 0) {
+        console.log("Division by zero error.");
+        return 0;
+    }
+
+    return a / b;
+};
 
 const operation = (selectFunc) => {
     switch (selectFunc) {
@@ -11,6 +44,12 @@ const operation = (selectFunc) => {
 
         case 1:
             return sub;
+        case 2:
+            return multiply;
+        case 3:
+            return division;
+        default:
+            throw new Error("Invalid option");
     }
 };
 
@@ -22,10 +61,22 @@ op = operation(0);
 
 console.log(`Calling the ${op.name} function.`);
 console.log(op(x, y));
-
 console.log();
 
 op = operation(1);
 
 console.log(`Calling the ${op.name} function.`);
 console.log(op(x, y));
+console.log();
+
+op = operation(2);
+
+console.log(`Calling the ${op.name} function.`);
+console.log(op(x, y));
+console.log();
+
+op = operation(3);
+
+console.log(`Calling the ${op.name} function.`);
+console.log(op(x, y));
+console.log();
