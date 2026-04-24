@@ -41,7 +41,6 @@ const operation = (selectFunc) => {
     switch (selectFunc) {
         case 0:
             return sum;
-
         case 1:
             return sub;
         case 2:
