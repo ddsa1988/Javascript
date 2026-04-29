@@ -26,10 +26,10 @@
 const checkDogs = function (dogsJulia, dogsKate) {
     if (!Array.isArray(dogsJulia) || !Array.isArray(dogsKate)) return;
 
-    // const copyDogsJulia = dogsJulia.slice(1, dogsJulia.length - 1);
+    // const dogsJuliaCorrected = dogsJulia.slice(1, dogsJulia.length - 2);
 
-    const copyDogsJulia = dogsJulia.slice(1, -1);
-    const allDogs = [...copyDogsJulia, ...dogsKate];
+    const dogsJuliaCorrected = dogsJulia.slice(1, -2);
+    const allDogs = [...dogsJuliaCorrected, ...dogsKate];
 
     allDogs.forEach(function (value, index) {
         if (value < 3) {
