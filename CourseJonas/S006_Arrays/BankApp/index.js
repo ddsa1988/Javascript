@@ -4,10 +4,21 @@ import accounts from "./Data/accounts.js";
 import * as elements from "./Data/elements.js";
 import * as utils from "./Data/utils.js";
 
-utils.displayMovements(accounts[0].movements, elements.containerMovements);
+const interest = 1.2;
+const movements = accounts[0].movements;
+
+utils.displayMovements(movements, elements.containerMovements);
 
 accounts.forEach((account) => {
     account.userName = utils.createUserName(account.owner);
 });
 
-utils.displayBalance(accounts[0].movements, elements.labelBalance);
+utils.calcDisplayBalance(movements, elements.labelBalance);
+
+utils.calcDisplaySummary(
+    movements,
+    elements.labelSumIn,
+    elements.labelSumOut,
+    elements.labelSumInterest,
+    interest,
+);

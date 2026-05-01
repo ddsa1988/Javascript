@@ -1,11 +1,7 @@
 "use strict";
 
 const displayMovements = function (movements, htmlEl) {
-    if (
-        !Array.isArray(movements) ||
-        htmlEl == undefined ||
-        htmlEl.tagName.toLowerCase() !== "div"
-    ) {
+    if (!Array.isArray(movements) || htmlEl?.tagName?.toLowerCase() !== "div") {
         return;
     }
 
@@ -37,18 +33,54 @@ const createUserName = function (user) {
     return userName;
 };
 
-const displayBalance = function (movements, htmlEl) {
-    if (
-        !Array.isArray(movements) ||
-        htmlEl == undefined ||
-        htmlEl.tagName.toLowerCase() !== "p"
-    ) {
-        return;
-    }
+const calcDisplayBalance = function (movements, htmlEl) {
+    if (!Array.isArray(movements)) return;
+
+    if (htmlEl?.tagName?.toLowerCase() !== "p") return;
 
     const balance = movements.reduce((previous, current) => current + previous);
 
     htmlEl.textContent = balance + "€";
 };
 
-export { displayMovements, createUserName, displayBalance };
+const calcDisplaySummary = function (
+    movements,
+    htmlElSumIn,
+    htmlElSumOut,
+    htmlElSumInterest,
+    interest,
+) {
+    if (!Array.isArray(movements)) return;
+
+    if (htmlElSumIn?.tagName?.toLowerCase() !== "p") return;
+
+    if (htmlElSumOut?.tagName?.toLowerCase() !== "p") return;
+
+    if (htmlElSumInterest?.tagName?.toLowerCase() !== "p") return;
+
+    if (!Number.isFinite(interest)) return;
+
+    const income = movements
+        .filter((value) => value > 0)
+        .reduce((previous, current) => previous + current, 0);
+
+    const outcome = movements
+        .filter((value) => value < 0)
+        .reduce((previous, current) => previous + current, 0);
+
+    const interestSum = movements
+        .filter((value) => value > 0)
+        .map((value) => (value * interest) / 100)
+        .reduce((previous, current) => previous + current, 0);
+
+    htmlElSumIn.textContent = income + "€";
+    htmlElSumOut.textContent = Math.abs(outcome) + "€";
+    htmlElSumInterest.textContent = interestSum + "€";
+};
+
+export {
+    displayMovements,
+    createUserName,
+    calcDisplayBalance,
+    calcDisplaySummary,
+};
