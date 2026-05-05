@@ -78,9 +78,19 @@ const calcDisplaySummary = function (
     htmlElSumInterest.textContent = interestSum + "€";
 };
 
+const getAccount = function (accounts, userName) {
+    if (!Array.isArray(accounts)) return;
+    if (typeof userName !== "string") return;
+
+    const account = accounts.find((account) => account.userName === userName);
+
+    return account;
+};
+
 export {
     displayMovements,
     createUserName,
     calcDisplayBalance,
     calcDisplaySummary,
+    getAccount,
 };
