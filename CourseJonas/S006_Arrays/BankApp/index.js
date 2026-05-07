@@ -67,6 +67,21 @@ el.btnTransfer.addEventListener("click", function (e) {
 
 el.btnLoan.addEventListener("click", function (e) {
     e.preventDefault();
+
+    const amount = Number(el.inputLoanAmount.value);
+
+    cleanInputFields();
+
+    if (!Number.isFinite(amount) || amount <= 0) return;
+
+    const minDeposit = amount * 0.1;
+    const anyMinDeposit = currentAccount.movements.some((movement) => movement > minDeposit);
+
+    if (!anyMinDeposit) return;
+
+    currentAccount.movements.push(amount);
+
+    updateUI(currentAccount);
 });
 
 el.btnClose.addEventListener("click", function (e) {
