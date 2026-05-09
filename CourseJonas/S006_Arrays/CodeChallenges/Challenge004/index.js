@@ -56,3 +56,63 @@ const breeds = [
 ];
 
 // 1. Store the the average weight of a "Husky" in a variable "huskyWeight"
+
+const huskyWeight = breeds.find((breed) => breed.breed.toLowerCase() === "husky")?.averageWeight ?? 0;
+
+console.log(`Husky average weight: ${huskyWeight}.\n`);
+
+// 2. Find the name of the only breed that likes both "running" and "fetch" ("dogBothActivities" variable)
+
+const dogBothActivities =
+    breeds.find((breed) => breed.activities.includes("running") && breed.activities.includes("fetch"))?.breed ?? "";
+
+console.log(`Breed tha likes both activities: ${dogBothActivities}.`);
+console.log();
+
+// 3. Create an array "allActivities" of all the activities of all the dog breeds
+
+const allActivities = breeds.flatMap((breed) => breed.activities);
+
+console.log(`All breeds activities: ${allActivities.join(", ")}.`);
+console.log();
+
+// 4. Create an array "uniqueActivities" that contains only the unique activities (no activity repetitions).
+
+const uniqueActivities = [...new Set(breeds.flatMap((breed) => breed.activities))];
+
+console.log(`All unique breeds activities: ${uniqueActivities.join(", ")}.`);
+console.log();
+
+// 5. Many dog breeds like to swim. What other activities do these dogs like? Store all the OTHER activities these breeds like to do, in a unique array called "swimmingAdjacent".
+
+const swimmingAdjacent = breeds
+    .filter((breed) => breed.activities.includes("swimming"))
+    .flatMap((breed) => breed.activities)
+    .filter((activity) => activity !== "swimming");
+
+const uniqueSwimmingAdjacent = [...new Set(swimmingAdjacent)];
+
+console.log(`Swimming adjacent: ${uniqueSwimmingAdjacent.join(", ")}.`);
+console.log();
+
+// 6. Do all the breeds have an average weight of 10kg or more? Log to the console whether "true" or "false".
+
+const isAverageTenKilos = breeds.every((breed) => breed.averageWeight >= 10);
+
+console.log(`Do all the breeds have an average weight of 10kg or more? ${isAverageTenKilos.toString().toUpperCase()}.`);
+console.log();
+
+// 7. Are there any breeds that are "active"? "Active" means that the dog has 3 or more activities. Log to the console whether "true" or "false".
+
+const isBreedActive = breeds.some((breed) => breed.activities.length >= 3);
+
+console.log(`Are there any breeds that are 'active'? ${isBreedActive.toString().toUpperCase()}.`);
+console.log();
+
+// 8. What's the average weight of the heaviest breed that likes to fetch?
+
+const heaviestBreed = Math.max(
+    ...breeds.filter((breed) => breed.activities.includes("fetch")).map((breed) => breed.averageWeight),
+);
+
+console.log(`The average weight of the heaviest bread is: ${heaviestBreed}.`);
