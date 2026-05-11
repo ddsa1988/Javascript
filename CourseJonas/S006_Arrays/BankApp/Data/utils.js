@@ -1,11 +1,13 @@
 "use strict";
 
-const displayMovements = function (account, htmlEl) {
+const displayMovements = function (account, htmlEl, sort = false) {
     if (!Array.isArray(account?.movements) || htmlEl?.tagName?.toLowerCase() !== "div") return;
+
+    const movements = sort ? account.movements.toSorted((a, b) => a - b) : [...account.movements];
 
     htmlEl.innerHTML = "";
 
-    account.movements.forEach(function (value, index) {
+    movements.forEach(function (value, index) {
         const type = value > 0 ? "deposit" : "withdrawal";
 
         const html = `

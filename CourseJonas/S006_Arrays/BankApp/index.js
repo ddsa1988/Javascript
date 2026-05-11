@@ -24,6 +24,7 @@ const cleanInputFields = function () {
 };
 
 let currentAccount;
+let isMovementsSorted = false;
 
 accounts.forEach((account) => {
     account.userName = utils.createUserName(account.owner);
@@ -99,4 +100,12 @@ el.btnClose.addEventListener("click", function (e) {
     accounts.splice(index, 1);
 
     el.containerApp.style.opacity = 0;
+});
+
+el.btnSort.addEventListener("click", function (e) {
+    e.preventDefault();
+
+    isMovementsSorted = !isMovementsSorted;
+
+    utils.displayMovements(currentAccount, el.containerMovements, isMovementsSorted);
 });
