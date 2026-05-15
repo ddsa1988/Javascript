@@ -21,7 +21,14 @@ console.log();
 
 // 2. Find Sarah's dog and log to the console whether it's eating too much or too little. Hint: Some dogs have multiple owners, so you first need to find Sarah in the owners array, and so this one is a bit tricky (on purpose) 🤓
 
-const isFoodAmountGood = function (currentFood, recommendedFood) {
+const FoodAmountComparer = function (currentFood, recommendedFood) {
+    /**
+     * Calculates if the current food is the correct portion
+     * @param {number} currentFood - The current food portion
+     * @param {number} recommendedFood - The recommended portion of food
+     * @returns {number} - To much = 1; Too little = -1; Normal = 0
+     */
+
     if (!Number.isFinite(currentFood)) return false;
     if (!Number.isFinite(recommendedFood)) return false;
 
@@ -29,9 +36,20 @@ const isFoodAmountGood = function (currentFood, recommendedFood) {
     const minRange = Number((recommendedFood - percentage).toFixed(2));
     const maxRange = Number((recommendedFood + percentage).toFixed(2));
 
-    return currentFood >= minRange && currentFood <= maxRange;
+    if (currentFood >= minRange) return 1;
+    if (currentFood <= maxRange) return -1;
+
+    return 0;
 };
 
 const sarahDog = dogs.find((dog) => dog.owners.includes("Sarah"));
-console.log(sarahDog);
-console.log(isFoodAmountGood(sarahDog.curFood, sarahDog.recommendedFood));
+const resultValue = FoodAmountComparer(sarahDog.curFood, sarahDog.recommendedFood);
+const resultStr = resultValue === 1 ? "too much" : resultValue === -1 ? "too little" : "normal";
+
+console.log(`Sarah's dog it's eating ${resultStr}.`);
+console.log();
+
+// 3. Create an array containing all owners of dogs who eat too much ('ownersEatTooMuch') and an array with all owners of dogs who eat too little ('ownersEatTooLittle')
+
+const ownersEatTooMuch = 0;
+const ownersEatTooLittle = 0;
