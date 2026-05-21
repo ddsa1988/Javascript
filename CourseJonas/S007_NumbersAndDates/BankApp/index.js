@@ -63,6 +63,9 @@ el.btnTransfer.addEventListener("click", function (e) {
     currentAccount.movements.push(amount * -1);
     receiverAccount.movements.push(amount);
 
+    currentAccount.movementsDates.push(new Date().toISOString());
+    receiverAccount.movementsDates.push(new Date().toISOString());
+
     updateUI(currentAccount);
 });
 
@@ -81,6 +84,7 @@ el.btnLoan.addEventListener("click", function (e) {
     if (!anyMinDeposit) return;
 
     currentAccount.movements.push(amount);
+    currentAccount.movementsDates.push(new Date().toISOString());
 
     updateUI(currentAccount);
 });
@@ -109,3 +113,5 @@ el.btnSort.addEventListener("click", function (e) {
 
     utils.displayMovements(currentAccount, el.containerMovements, isMovementsSorted);
 });
+
+el.labelDate.textContent = utils.getDate();

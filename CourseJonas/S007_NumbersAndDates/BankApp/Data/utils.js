@@ -9,11 +9,12 @@ const displayMovements = function (account, htmlEl, sort = false) {
 
     movements.forEach(function (value, index) {
         const type = value > 0 ? "deposit" : "withdrawal";
+        const date = new Date(account.movementsDates[index]);
 
         const html = `
         <div class="movements__row">
             <div class="movements__type movements__type--${type}">${index + 1} ${type}</div>
-            <div class="movements__date">3 days ago</div>
+            <div class="movements__date">${date.toLocaleDateString()}</div>
             <div class="movements__value">${value.toFixed(2)}€</div>
         </div>`;
 
@@ -99,4 +100,10 @@ const getGreeting = function (fullName) {
     return "Welcome back, " + toTitleCase(firstName) + "!";
 };
 
-export { displayMovements, createUserName, calcDisplayBalance, calcDisplaySummary, getAccount, getGreeting };
+const getDate = function () {
+    const now = new Date();
+
+    return now.toLocaleDateString() + ", " + now.toLocaleTimeString();
+};
+
+export { displayMovements, createUserName, calcDisplayBalance, calcDisplaySummary, getAccount, getGreeting, getDate };
