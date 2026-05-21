@@ -3,19 +3,18 @@
 const displayMovements = function (account, htmlEl, sort = false) {
     if (!Array.isArray(account?.movements) || htmlEl?.tagName?.toLowerCase() !== "div") return;
 
-    const movements = sort ? account.movements.toSorted((a, b) => a - b) : [...account.movements];
+    const movements = sort ? account.movements.toSorted((a, b) => a.amount - b.amount) : [...account.movements];
 
     htmlEl.innerHTML = "";
 
-    movements.forEach(function (value, index) {
-        const type = value > 0 ? "deposit" : "withdrawal";
-        const date = new Date(account.movementsDates[index]);
+    movements.forEach(function (movement, index) {
+        const type = movement.amount > 0 ? "deposit" : "withdrawal";
 
         const html = `
         <div class="movements__row">
             <div class="movements__type movements__type--${type}">${index + 1} ${type}</div>
-            <div class="movements__date">${date.toLocaleDateString()}</div>
-            <div class="movements__value">${value.toFixed(2)}€</div>
+            <div class="movements__date">${new Date(movement.date).toLocaleDateString()}</div>
+            <div class="movements__value">${movement.amount.toFixed(2)}€</div>
         </div>`;
 
         htmlEl.insertAdjacentHTML("afterbegin", html);
@@ -39,7 +38,9 @@ const calcDisplayBalance = function (account, htmlEl) {
 
     if (htmlEl?.tagName?.toLowerCase() !== "p") return;
 
-    account.balance = account.movements.reduce((previous, current) => current + previous);
+    account.balance = account.movements
+        .map((movement) => movement.amount)
+        .reduce((previous, current) => current + previous);
 
     htmlEl.textContent = account.balance.toFixed(2) + "€";
 };
@@ -55,13 +56,19 @@ const calcDisplaySummary = function (account, htmlElSumIn, htmlElSumOut, htmlElS
 
     if (!Number.isFinite(account?.interestRate)) return;
 
-    const income = account.movements.filter((value) => value > 0).reduce((previous, current) => previous + current, 0);
+    const income = account.movements
+        .filter((movement) => movement.amount > 0)
+        .map((movement) => movement.amount)
+        .reduce((previous, current) => previous + current, 0);
 
-    const outcome = account.movements.filter((value) => value < 0).reduce((previous, current) => previous + current, 0);
+    const outcome = account.movements
+        .filter((movement) => movement.amount < 0)
+        .map((movement) => movement.amount)
+        .reduce((previous, current) => previous + current, 0);
 
     const interest = account.movements
-        .filter((value) => value > 0)
-        .map((value) => (value * account.interestRate) / 100)
+        .filter((movement) => movement.amount > 0)
+        .map((movement) => (movement.amount * account.interestRate) / 100)
         .reduce((previous, current) => previous + current, 0);
 
     htmlElSumIn.textContent = income.toFixed(2) + "€";

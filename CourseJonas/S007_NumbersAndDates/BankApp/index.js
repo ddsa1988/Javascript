@@ -60,11 +60,8 @@ el.btnTransfer.addEventListener("click", function (e) {
 
     if (!Number.isFinite(amount) || amount <= 0 || amount > currentAccount.balance) return;
 
-    currentAccount.movements.push(amount * -1);
-    receiverAccount.movements.push(amount);
-
-    currentAccount.movementsDates.push(new Date().toISOString());
-    receiverAccount.movementsDates.push(new Date().toISOString());
+    currentAccount.movements.push({ amount: amount * -1, date: new Date().toISOString() });
+    receiverAccount.movements.push({ amount: amount, date: new Date().toISOString() });
 
     updateUI(currentAccount);
 });
@@ -79,12 +76,11 @@ el.btnLoan.addEventListener("click", function (e) {
     if (!Number.isFinite(amount) || amount <= 0) return;
 
     const minDeposit = amount * 0.1;
-    const anyMinDeposit = currentAccount.movements.some((movement) => movement > minDeposit);
+    const anyMinDeposit = currentAccount.movements.some((movement) => movement.amount > minDeposit);
 
     if (!anyMinDeposit) return;
 
-    currentAccount.movements.push(amount);
-    currentAccount.movementsDates.push(new Date().toISOString());
+    currentAccount.movements.push({ amount: amount, date: new Date().toISOString() });
 
     updateUI(currentAccount);
 });
