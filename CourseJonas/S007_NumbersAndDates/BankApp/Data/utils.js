@@ -13,7 +13,7 @@ const displayMovements = function (account, htmlEl, sort = false) {
         const html = `
         <div class="movements__row">
             <div class="movements__type movements__type--${type}">${index + 1} ${type}</div>
-            <div class="movements__date">${new Date(movement.date).toLocaleDateString()}</div>
+            <div class="movements__date">${movement.date.toLocaleDateString()}</div>
             <div class="movements__value">${movement.amount.toFixed(2)}€</div>
         </div>`;
 

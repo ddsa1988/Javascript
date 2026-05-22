@@ -4,12 +4,15 @@ class Movement {
     #amount;
     #date;
 
-    constructor(amount, dateStr) {
+    constructor(amount, dateString) {
         this.amount = amount;
-        this.date = dateStr;
+        this.date = dateString;
     }
 
     set amount(value) {
+        if (!Number.isFinite(value)) {
+            throw new Error("Value must be a number.");
+        }
         this.#amount = value;
     }
 
@@ -21,7 +24,7 @@ class Movement {
         const newDate = new Date(dateStr);
 
         if (isNaN(new Date(dateStr))) {
-            throw new Error("Invalid movement date.");
+            throw new Error("Invalid date.");
         }
 
         this.#date = newDate;
