@@ -10,10 +10,29 @@ const displayMovements = function (account, htmlEl, sort = false) {
     movements.forEach(function (movement, index) {
         const type = movement.amount > 0 ? "deposit" : "withdrawal";
 
+        const daysPassedMov = calcDaysPassed(movement.date, new Date());
+
+        let displayDate = "";
+
+        switch (daysPassedMov) {
+            case 0:
+                displayDate = "Today";
+                break;
+            case 1:
+                displayDate = "Yesterday";
+                break;
+            case daysPassedMov < 8:
+                displayDate = `${daysPassedMov} days ago`;
+                break;
+            default:
+                displayDate = movement.date.toLocaleDateString();
+                break;
+        }
+
         const html = `
         <div class="movements__row">
             <div class="movements__type movements__type--${type}">${index + 1} ${type}</div>
-            <div class="movements__date">${movement.date.toLocaleDateString()}</div>
+            <div class="movements__date">${displayDate}</div>
             <div class="movements__value">${movement.amount.toFixed(2)}€</div>
         </div>`;
 
@@ -113,4 +132,24 @@ const getDate = function () {
     return now.toLocaleDateString() + ", " + now.toLocaleTimeString();
 };
 
-export { displayMovements, createUserName, calcDisplayBalance, calcDisplaySummary, getAccount, getGreeting, getDate };
+const calcDaysPassed = function (startDate, endDate) {
+    if (!(startDate instanceof Date) || isNaN(startDate)) return 0;
+    if (!(endDate instanceof Date) || isNaN(endDate)) return 0;
+
+    const millisecondsPerDay = 86400000;
+
+    const daysPassed = Math.floor(Math.abs(endDate - startDate) / millisecondsPerDay);
+
+    return daysPassed;
+};
+
+export {
+    displayMovements,
+    createUserName,
+    calcDisplayBalance,
+    calcDisplaySummary,
+    getAccount,
+    getGreeting,
+    getDate,
+    calcDaysPassed,
+};
