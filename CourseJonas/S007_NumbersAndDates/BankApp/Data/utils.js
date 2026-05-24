@@ -25,7 +25,7 @@ const displayMovements = function (account, htmlEl, sort = false) {
                 displayDate = `${daysPassedMov} days ago`;
                 break;
             default:
-                displayDate = movement.date.toLocaleDateString();
+                displayDate = movement.date.toLocaleDateString(account.locale);
                 break;
         }
 
@@ -126,10 +126,10 @@ const getGreeting = function (fullName) {
     return "Welcome back, " + toTitleCase(firstName) + "!";
 };
 
-const getDate = function () {
+const getDate = function (locale) {
     const now = new Date();
 
-    return now.toLocaleDateString() + ", " + now.toLocaleTimeString();
+    return now.toLocaleDateString(locale) + ", " + now.toLocaleTimeString(locale);
 };
 
 const calcDaysPassed = function (startDate, endDate) {

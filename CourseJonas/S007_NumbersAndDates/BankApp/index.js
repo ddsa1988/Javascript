@@ -41,6 +41,7 @@ el.btnLogin.addEventListener("click", function (e) {
     updateUI(currentAccount);
 
     el.labelWelcome.textContent = utils.getGreeting(currentAccount.owner);
+    el.labelDate.textContent = utils.getDate(currentAccount.locale);
     el.inputLoginUsername.value = "";
     el.inputCloseUsername.blur();
     el.inputLoginPin.value = "";
@@ -110,5 +111,3 @@ el.btnSort.addEventListener("click", function (e) {
 
     utils.displayMovements(currentAccount, el.containerMovements, isMovementsSorted);
 });
-
-el.labelDate.textContent = utils.getDate();
