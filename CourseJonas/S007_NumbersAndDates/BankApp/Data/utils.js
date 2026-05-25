@@ -1,5 +1,16 @@
 "use strict";
 
+const formatCurrency = function (value, locale, currency) {
+    if (!Number.isFinite(value)) return;
+    if (typeof locale !== "string") return;
+    if (typeof currency !== "string") return;
+
+    return Intl.NumberFormat(locale, {
+        style: "currency",
+        currency: currency,
+    }).format(value);
+};
+
 const displayMovements = function (account, htmlEl, sort = false) {
     if (!Array.isArray(account?.movements) || htmlEl?.tagName?.toLowerCase() !== "div") return;
 
@@ -9,6 +20,8 @@ const displayMovements = function (account, htmlEl, sort = false) {
 
     movements.forEach(function (movement, index) {
         const type = movement.amount > 0 ? "deposit" : "withdrawal";
+
+        const displayValue = formatCurrency(movement.amount, account.locale, account.currency);
 
         const daysPassedMov = calcDaysPassed(movement.date, new Date());
 
@@ -25,7 +38,7 @@ const displayMovements = function (account, htmlEl, sort = false) {
                 displayDate = `${daysPassedMov} days ago`;
                 break;
             default:
-                displayDate = movement.date.toLocaleDateString(account.locale);
+                displayDate = Intl.DateTimeFormat(account.locale).format(movement.date);
                 break;
         }
 
@@ -33,7 +46,7 @@ const displayMovements = function (account, htmlEl, sort = false) {
         <div class="movements__row">
             <div class="movements__type movements__type--${type}">${index + 1} ${type}</div>
             <div class="movements__date">${displayDate}</div>
-            <div class="movements__value">${movement.amount.toFixed(2)}€</div>
+            <div class="movements__value">${displayValue}</div>
         </div>`;
 
         htmlEl.insertAdjacentHTML("afterbegin", html);
@@ -61,7 +74,7 @@ const calcDisplayBalance = function (account, htmlEl) {
         .map((movement) => movement.amount)
         .reduce((previous, current) => current + previous);
 
-    htmlEl.textContent = account.balance.toFixed(2) + "€";
+    htmlEl.textContent = formatCurrency(account.balance, account.locale, account.currency);
 };
 
 const calcDisplaySummary = function (account, htmlElSumIn, htmlElSumOut, htmlElSumInterest) {
@@ -90,9 +103,9 @@ const calcDisplaySummary = function (account, htmlElSumIn, htmlElSumOut, htmlElS
         .map((movement) => (movement.amount * account.interestRate) / 100)
         .reduce((previous, current) => previous + current, 0);
 
-    htmlElSumIn.textContent = income.toFixed(2) + "€";
-    htmlElSumOut.textContent = Math.abs(outcome).toFixed(2) + "€";
-    htmlElSumInterest.textContent = interest.toFixed(2) + "€";
+    htmlElSumIn.textContent = formatCurrency(income, account.locale, account.currency);
+    htmlElSumOut.textContent = formatCurrency(Math.abs(outcome), account.locale, account.currency);
+    htmlElSumInterest.textContent = formatCurrency(interest, account.locale, account.currency);
 };
 
 const getAccount = function (accounts, userName) {
@@ -127,6 +140,8 @@ const getGreeting = function (fullName) {
 };
 
 const getDate = function (locale) {
+    if (typeof locale !== "string") return;
+
     const now = new Date();
 
     return now.toLocaleDateString(locale) + ", " + now.toLocaleTimeString(locale);
