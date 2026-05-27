@@ -84,7 +84,7 @@ el.btnLoan.addEventListener("click", function (e) {
 
     currentAccount.movements.push(new Movement(amount, new Date().toISOString()));
 
-    updateUI(currentAccount);
+    setTimeout(() => updateUI(currentAccount), 2000);
 });
 
 el.btnClose.addEventListener("click", function (e) {
