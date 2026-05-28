@@ -158,6 +158,33 @@ const calcDaysPassed = function (startDate, endDate) {
     return daysPassed;
 };
 
+const startLogOutTimer = function (seconds) {
+    if (!Number.isInteger(seconds) || seconds < 0) return;
+
+    const tick = function () {
+        const min = String(Math.trunc(seconds / 60)).padStart(2, "0");
+
+        const sec = String(seconds % 60).padStart(2, "0");
+
+        console.clear();
+        console.log(`${min}:${sec}`);
+
+        if (seconds <= 0) {
+            clearInterval(timer);
+        }
+
+        seconds--;
+    };
+
+    tick();
+
+    const timer = setInterval(tick, 1000);
+
+    return timer;
+};
+
+startLogOutTimer(120);
+
 export {
     displayMovements,
     createUserName,
