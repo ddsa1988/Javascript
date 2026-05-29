@@ -11,12 +11,12 @@ const formatCurrency = function (value, locale, currency) {
     }).format(value);
 };
 
-const displayMovements = function (account, htmlEl, sort = false) {
-    if (!Array.isArray(account?.movements) || htmlEl?.tagName?.toLowerCase() !== "div") return;
+const displayMovements = function (account, htmlDiv, sort = false) {
+    if (!Array.isArray(account?.movements) || htmlDiv?.tagName?.toLowerCase() !== "div") return;
 
     const movements = sort ? account.movements.toSorted((a, b) => a.amount - b.amount) : [...account.movements];
 
-    htmlEl.innerHTML = "";
+    htmlDiv.innerHTML = "";
 
     movements.forEach(function (movement, index) {
         const type = movement.amount > 0 ? "deposit" : "withdrawal";
@@ -49,7 +49,7 @@ const displayMovements = function (account, htmlEl, sort = false) {
             <div class="movements__value">${displayValue}</div>
         </div>`;
 
-        htmlEl.insertAdjacentHTML("afterbegin", html);
+        htmlDiv.insertAdjacentHTML("afterbegin", html);
     });
 };
 
@@ -65,16 +65,16 @@ const createUserName = function (user) {
     return userName;
 };
 
-const calcDisplayBalance = function (account, htmlEl) {
+const calcDisplayBalance = function (account, htmlParagraph) {
     if (!Array.isArray(account?.movements)) return;
 
-    if (htmlEl?.tagName?.toLowerCase() !== "p") return;
+    if (htmlParagraph?.tagName?.toLowerCase() !== "p") return;
 
     account.balance = account.movements
         .map((movement) => movement.amount)
         .reduce((previous, current) => current + previous);
 
-    htmlEl.textContent = formatCurrency(account.balance, account.locale, account.currency);
+    htmlParagraph.textContent = formatCurrency(account.balance, account.locale, account.currency);
 };
 
 const calcDisplaySummary = function (account, htmlElSumIn, htmlElSumOut, htmlElSumInterest) {
