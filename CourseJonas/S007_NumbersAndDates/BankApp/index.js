@@ -1,14 +1,14 @@
 "use strict";
 
 import accounts from "./Data/accounts.js";
-import * as el from "./Data/elements.js";
-import * as utils from "./Data/utils.js";
+import * as el from "./Utils/elements.js";
+import * as func from "./Utils/functions.js";
 import Movement from "./Models/movement.js";
 
 const updateUI = function (account) {
-    utils.displayMovements(account, el.containerMovements);
-    utils.calcDisplayBalance(account, el.labelBalance);
-    utils.calcDisplaySummary(account, el.labelSumIn, el.labelSumOut, el.labelSumInterest);
+    func.displayMovements(account, el.containerMovements);
+    func.calcDisplayBalance(account, el.labelBalance);
+    func.calcDisplaySummary(account, el.labelSumIn, el.labelSumOut, el.labelSumInterest);
 };
 
 const cleanInputFields = function () {
@@ -28,20 +28,20 @@ let currentAccount;
 let isMovementsSorted = false;
 
 accounts.forEach((account) => {
-    account.userName = utils.createUserName(account.owner);
+    account.userName = func.createUserName(account.owner);
 });
 
 el.btnLogin.addEventListener("click", function (e) {
     e.preventDefault();
 
-    currentAccount = utils.getAccount(accounts, el.inputLoginUsername?.value);
+    currentAccount = func.getAccount(accounts, el.inputLoginUsername?.value);
 
     if (currentAccount?.pin !== Number(el.inputLoginPin.value)) return;
 
     updateUI(currentAccount);
 
-    el.labelWelcome.textContent = utils.getGreeting(currentAccount.owner);
-    el.labelDate.textContent = utils.getDate(currentAccount.locale);
+    el.labelWelcome.textContent = func.getGreeting(currentAccount.owner);
+    el.labelDate.textContent = func.getDate(currentAccount.locale);
     el.inputLoginUsername.value = "";
     el.inputCloseUsername.blur();
     el.inputLoginPin.value = "";
@@ -109,5 +109,5 @@ el.btnSort.addEventListener("click", function (e) {
 
     isMovementsSorted = !isMovementsSorted;
 
-    utils.displayMovements(currentAccount, el.containerMovements, isMovementsSorted);
+    func.displayMovements(currentAccount, el.containerMovements, isMovementsSorted);
 });

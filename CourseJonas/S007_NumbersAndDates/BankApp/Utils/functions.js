@@ -183,8 +183,6 @@ const startLogOutTimer = function (seconds) {
     return timer;
 };
 
-startLogOutTimer(120);
-
 export {
     displayMovements,
     createUserName,
