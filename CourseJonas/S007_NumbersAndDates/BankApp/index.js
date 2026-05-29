@@ -24,8 +24,19 @@ const cleanInputFields = function () {
     el.inputClosePin.blur();
 };
 
+const logOutTimer = 600;
+
 let currentAccount;
+let timer;
 let isMovementsSorted = false;
+
+const startLogOutTimer = function () {
+    if (timer != undefined) {
+        clearInterval(timer);
+    }
+
+    timer = func.startLogOutTimer(logOutTimer, el.labelTimer, el.containerApp, el.labelWelcome);
+};
 
 accounts.forEach((account) => {
     account.userName = func.createUserName(account.owner);
@@ -47,6 +58,8 @@ el.btnLogin.addEventListener("click", function (e) {
     el.inputLoginPin.value = "";
     el.inputLoginPin.blur();
     el.containerApp.style.opacity = 100;
+
+    startLogOutTimer();
 });
 
 el.btnTransfer.addEventListener("click", function (e) {
@@ -64,6 +77,8 @@ el.btnTransfer.addEventListener("click", function (e) {
 
     currentAccount.movements.push(new Movement(amount * -1, new Date().toISOString()));
     receiverAccount.movements.push(new Movement(amount, new Date().toISOString()));
+
+    startLogOutTimer();
 
     updateUI(currentAccount);
 });
@@ -83,6 +98,8 @@ el.btnLoan.addEventListener("click", function (e) {
     if (!anyMinDeposit) return;
 
     currentAccount.movements.push(new Movement(amount, new Date().toISOString()));
+
+    startLogOutTimer();
 
     setTimeout(() => updateUI(currentAccount), 2000);
 });

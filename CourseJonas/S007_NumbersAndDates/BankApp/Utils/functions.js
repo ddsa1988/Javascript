@@ -158,19 +158,23 @@ const calcDaysPassed = function (startDate, endDate) {
     return daysPassed;
 };
 
-const startLogOutTimer = function (seconds) {
+const startLogOutTimer = function (seconds, htmlTimer, htmlAppContainer, htmlLabelWelcome) {
     if (!Number.isInteger(seconds) || seconds < 0) return;
+    if (htmlTimer?.tagName?.toLowerCase() !== "span") return;
+    if (htmlAppContainer?.tagName?.toLowerCase() !== "main") return;
+    if (htmlLabelWelcome?.tagName?.toLowerCase() !== "p") return;
 
     const tick = function () {
         const min = String(Math.trunc(seconds / 60)).padStart(2, "0");
 
         const sec = String(seconds % 60).padStart(2, "0");
 
-        console.clear();
-        console.log(`${min}:${sec}`);
+        htmlTimer.textContent = `${min}:${sec}`;
 
         if (seconds <= 0) {
             clearInterval(timer);
+            htmlLabelWelcome = "Log in to get started";
+            htmlAppContainer.style.opacity = 0;
         }
 
         seconds--;
@@ -192,4 +196,5 @@ export {
     getGreeting,
     getDate,
     calcDaysPassed,
+    startLogOutTimer,
 };
