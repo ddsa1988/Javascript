@@ -29,3 +29,20 @@ document.addEventListener("keydown", function (e) {
         closeModal();
     }
 });
+
+// Scrolling
+
+const btnScrollTo = document.querySelector(".btn--scroll-to");
+const section1 = document.querySelector("#section--1");
+
+btnScrollTo.addEventListener("click", function (e) {
+    // const coordsSec1 = section1.getBoundingClientRect(); // This coordinates are relative to the start of the viewport
+
+    // window.scrollTo({
+    //     top: coordsSec1.top + window.scrollY,
+    //     left: coordsSec1.left + window.scrollX,
+    //     behavior: "smooth",
+    // });
+
+    section1.scrollIntoView({ behavior: "smooth" });
+});
