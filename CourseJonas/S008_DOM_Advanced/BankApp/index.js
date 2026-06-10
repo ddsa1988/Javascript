@@ -46,3 +46,9 @@ btnScrollTo.addEventListener("click", function (e) {
 
     section1.scrollIntoView({ behavior: "smooth" });
 });
+
+const randomInt = function (min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+};
+
+const randomColor = () => `rgb(${randomInt(0, 255)},${randomInt(0, 255)},${randomInt(0, 255)})`;
