@@ -9,6 +9,9 @@ const btnsOpenModal = document.querySelectorAll(".btn--show-modal");
 const btnScrollTo = document.querySelector(".btn--scroll-to");
 const section1 = document.querySelector("#section--1");
 const navLinks = document.querySelector(".nav__links");
+const tabContainer = document.querySelector(".operations__tab-container");
+const tabs = document.querySelectorAll(".operations__tab");
+const tabsContent = document.querySelectorAll(".operations__content");
 
 const openModal = function (e) {
     e.preventDefault();
@@ -58,4 +61,30 @@ navLinks.addEventListener("click", function (e) {
     if (!e.target.classList.contains("nav__link")) return;
 
     section.scrollIntoView({ behavior: "smooth" });
+});
+
+// Tabbed component
+
+tabContainer.addEventListener("click", function (e) {
+    e.preventDefault();
+
+    const tabClicked = e.target.closest(".operations__tab");
+
+    if (tabClicked == undefined) return;
+
+    const dataTabClicked = tabClicked.dataset.tab;
+
+    if (!tabClicked.classList.contains("operations__tab")) return;
+
+    for (let i = 0; i < tabs.length; i++) {
+        const dataTab = tabs[i].dataset.tab;
+
+        if (dataTab === dataTabClicked) {
+            tabs[i].classList.add("operations__tab--active");
+            tabsContent[i].classList.add("operations__content--active");
+        } else {
+            tabs[i].classList.remove("operations__tab--active");
+            tabsContent[i].classList.remove("operations__content--active");
+        }
+    }
 });
