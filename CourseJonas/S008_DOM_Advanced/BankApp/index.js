@@ -1,7 +1,5 @@
 "use strict";
 
-// Modal window
-
 const modal = document.querySelector(".modal");
 const overlay = document.querySelector(".overlay");
 const btnCloseModal = document.querySelector(".btn--close-modal");
@@ -12,6 +10,9 @@ const navLinks = document.querySelector(".nav__links");
 const tabContainer = document.querySelector(".operations__tab-container");
 const tabs = document.querySelectorAll(".operations__tab");
 const tabsContent = document.querySelectorAll(".operations__content");
+const nav = document.querySelector(".nav");
+
+// Modal window
 
 const openModal = function (e) {
     e.preventDefault();
@@ -68,6 +69,7 @@ navLinks.addEventListener("click", function (e) {
 tabContainer.addEventListener("click", function (e) {
     e.preventDefault();
 
+    // It's necessary use the closest method because there is a span element inside the button
     const tabClicked = e.target.closest(".operations__tab");
 
     if (tabClicked == undefined) return;
@@ -76,6 +78,7 @@ tabContainer.addEventListener("click", function (e) {
 
     if (!tabClicked.classList.contains("operations__tab")) return;
 
+    // Activate tab and content area
     for (let i = 0; i < tabs.length; i++) {
         const dataTab = tabs[i].dataset.tab;
 
@@ -87,4 +90,44 @@ tabContainer.addEventListener("click", function (e) {
             tabsContent[i].classList.remove("operations__content--active");
         }
     }
+});
+
+// Menu fade animation
+
+nav.addEventListener("mouseover", function (e) {
+    const link = e.target;
+
+    if (link == undefined) return;
+
+    if (!link.classList.contains("nav__link")) return;
+
+    const siblings = link.closest(".nav").querySelectorAll(".nav__link");
+
+    const logo = link.closest(".nav").querySelector("img");
+
+    siblings.forEach((sibling) => {
+        if (sibling !== link) {
+            sibling.style.opacity = 0.5;
+        }
+    });
+
+    logo.style.opacity = 0.5;
+});
+
+nav.addEventListener("mouseout", function (e) {
+    const link = e.target;
+
+    if (link == undefined) return;
+
+    if (!link.classList.contains("nav__link")) return;
+
+    const siblings = link.closest(".nav").querySelectorAll(".nav__link");
+
+    const logo = link.closest(".nav").querySelector("img");
+
+    siblings.forEach((sibling) => {
+        sibling.style.opacity = 1;
+    });
+
+    logo.style.opacity = 1;
 });
