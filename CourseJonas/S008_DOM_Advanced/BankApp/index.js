@@ -11,6 +11,7 @@ const tabContainer = document.querySelector(".operations__tab-container");
 const tabs = document.querySelectorAll(".operations__tab");
 const tabsContent = document.querySelectorAll(".operations__content");
 const nav = document.querySelector(".nav");
+const header = document.querySelector(".header");
 
 // Modal window
 
@@ -120,3 +121,27 @@ const handleHover = function (e) {
 nav.addEventListener("mouseover", handleHover.bind(0.5));
 
 nav.addEventListener("mouseout", handleHover.bind(1));
+
+// Sticky navigation: intersection observer API
+
+const stickyNav = function (entries, observer) {
+    const entry = entries[0];
+
+    if (entry.isIntersecting) {
+        nav.classList.remove("sticky");
+    } else {
+        nav.classList.add("sticky");
+    }
+};
+
+const navHeight = nav.getBoundingClientRect().height;
+
+const observerOptions = {
+    root: null, // The element that is used as the viewport for checking visibility of the target. Must be the ancestor of the target. Defaults to the browser viewport if not specified or if null.
+    rootMargin: `-${navHeight}px`, // Margin around the root
+    threshold: 0, // Percentage of the target's visibility the observer's callback should be executed.
+};
+
+const headerObserver = new IntersectionObserver(stickyNav, observerOptions);
+
+headerObserver.observe(header); // Target element
