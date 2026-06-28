@@ -14,6 +14,8 @@ const nav = document.querySelector(".nav");
 const header = document.querySelector(".header");
 const sections = document.querySelectorAll(".section");
 const lazyLoadImgs = document.querySelectorAll("img[data-src]");
+const slides = document.querySelectorAll(".slide");
+const slidersBtn = document.querySelectorAll(".slider__btn");
 
 // Modal window
 
@@ -199,4 +201,29 @@ const lazyImgObserver = new IntersectionObserver(loadImg, lazyImgObserverOptions
 
 lazyLoadImgs.forEach((img) => {
     lazyImgObserver.observe(img);
+});
+
+// Sliders
+
+const maxSlide = slides.length - 1;
+let currentSlide = 0;
+
+const goToSlide = function (slideNumber) {
+    slides.forEach((slide, index) => {
+        slide.style.transform = `translateX(${(index - slideNumber) * 100}%)`;
+    });
+};
+
+goToSlide(0);
+
+slidersBtn.forEach((btn) => {
+    btn.addEventListener("click", function () {
+        if (btn.classList.contains("slider__btn--left")) {
+            currentSlide = currentSlide > 0 ? --currentSlide : currentSlide;
+        } else {
+            currentSlide = currentSlide < maxSlide ? ++currentSlide : currentSlide;
+        }
+
+        goToSlide(currentSlide);
+    });
 });
