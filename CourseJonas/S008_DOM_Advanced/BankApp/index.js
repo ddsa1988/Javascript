@@ -208,6 +208,14 @@ lazyLoadImgs.forEach((img) => {
 const maxSlide = slides.length - 1;
 let currentSlide = 0;
 
+const previousSlide = function () {
+    currentSlide = currentSlide > 0 ? --currentSlide : currentSlide;
+};
+
+const nextSlide = function () {
+    currentSlide = currentSlide < maxSlide ? ++currentSlide : currentSlide;
+};
+
 const goToSlide = function (slideNumber) {
     slides.forEach((slide, index) => {
         slide.style.transform = `translateX(${(index - slideNumber) * 100}%)`;
@@ -219,9 +227,9 @@ goToSlide(0);
 slidersBtn.forEach((btn) => {
     btn.addEventListener("click", function () {
         if (btn.classList.contains("slider__btn--left")) {
-            currentSlide = currentSlide > 0 ? --currentSlide : currentSlide;
+            previousSlide();
         } else {
-            currentSlide = currentSlide < maxSlide ? ++currentSlide : currentSlide;
+            nextSlide();
         }
 
         goToSlide(currentSlide);
