@@ -16,6 +16,7 @@ const sections = document.querySelectorAll(".section");
 const lazyLoadImgs = document.querySelectorAll("img[data-src]");
 const slides = document.querySelectorAll(".slide");
 const slidersBtn = document.querySelectorAll(".slider__btn");
+const dotsContainer = document.querySelector(".dots");
 
 // Modal window
 
@@ -208,6 +209,20 @@ lazyLoadImgs.forEach((img) => {
 const maxSlide = slides.length - 1;
 let currentSlide = 0;
 
+const createDots = function () {
+    slides.forEach((slide, index) => {
+        dotsContainer.insertAdjacentHTML("beforeend", `<button class="dots__dot" data-slide="${index}"></button>`);
+    });
+};
+
+const activateDot = function (slide) {
+    document.querySelectorAll(".dots__dot").forEach((dot) => {
+        dot.classList.remove("dots__dot--active");
+    });
+
+    document.querySelector(`.dots__dot[data-slide="${slide}"]`).classList.add("dots__dot--active");
+};
+
 const previousSlide = function () {
     currentSlide = currentSlide > 0 ? --currentSlide : currentSlide;
 };
@@ -220,8 +235,11 @@ const goToSlide = function (slideNumber) {
     slides.forEach((slide, index) => {
         slide.style.transform = `translateX(${(index - slideNumber) * 100}%)`;
     });
+
+    activateDot(slideNumber);
 };
 
+createDots();
 goToSlide(0);
 
 slidersBtn.forEach((btn) => {
@@ -234,4 +252,12 @@ slidersBtn.forEach((btn) => {
 
         goToSlide(currentSlide);
     });
+});
+
+dotsContainer.addEventListener("click", function (e) {
+    if (!e.target.classList.contains("dots__dot")) return;
+
+    currentSlide = Number(e.target.dataset.slide);
+
+    goToSlide(currentSlide);
 });
