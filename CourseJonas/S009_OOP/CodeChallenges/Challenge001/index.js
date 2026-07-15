@@ -22,7 +22,7 @@ Car.prototype.accelerate = function () {
 };
 
 Car.prototype.brake = function () {
-    this.speed -= 5;
+    this.speed = this.speed > 0 ? this.speed - 5 : this.speed;
 
     console.log(`The car speed is ${this.speed} km/h.`);
 };

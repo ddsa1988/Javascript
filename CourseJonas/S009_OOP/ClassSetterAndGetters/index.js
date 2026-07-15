@@ -48,7 +48,7 @@ class Person {
 
         const age = new Date(timeDiff).getFullYear() - 1970;
 
-        return age;
+        return Number.isFinite(age) ? age : 0;
     }
 }
 

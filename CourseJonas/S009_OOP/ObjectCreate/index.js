@@ -1,12 +1,15 @@
 "use strict";
 
-class Person {
-    constructor(firstName, birthdate) {
+const PersonProto = {
+    firstName: undefined,
+    birthdate: undefined,
+
+    init: function (firstName, birthdate) {
         this.firstName = firstName;
         this.birthdate = birthdate;
-    }
+    },
 
-    getAge() {
+    getAge: function () {
         const now = new Date();
         const timeDiff = now - this.birthdate;
 
@@ -15,9 +18,10 @@ class Person {
         const age = new Date(timeDiff).getFullYear() - 1970;
 
         return Number.isFinite(age) ? age : 0;
-    }
-}
+    },
+};
 
-const diego = new Person("Diego", new Date(1988, 0, 22));
+const diego = Object.create(PersonProto);
 
-console.log(diego.getAge());
+console.log(diego.__proto__);
+console.log(diego.__proto__ === PersonProto);
