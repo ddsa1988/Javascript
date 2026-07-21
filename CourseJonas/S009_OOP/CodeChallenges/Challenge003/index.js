@@ -40,3 +40,6 @@ ElectricCar.prototype.chargeBattery = function (chargeTo) {
 
 const tesla = new ElectricCar("Tesla", 100, 24);
 tesla.accelerate();
+
+tesla.chargeBattery(50);
+console.log(tesla);

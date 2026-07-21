@@ -18,6 +18,18 @@ class Person {
     }
 }
 
-const diego = new Person("Diego", new Date(1988, 0, 22));
+class Student extends Person {
+    constructor(firstName, birthdate, course) {
+        super(firstName, birthdate);
+        this.course = course;
+    }
+
+    getGreeting() {
+        return `My name is ${this.firstName} and I study ${this.course}.`;
+    }
+}
+
+const diego = new Student("Diego", new Date(1988, 0, 22), "Software Engineering");
 
 console.log(diego.getAge());
+console.log(diego.getGreeting());
