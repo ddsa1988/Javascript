@@ -97,8 +97,13 @@ class App {
     #workouts = [];
 
     constructor() {
+        // Get user position
         this._getPosition();
 
+        // Get data from local storage
+        this._getLocalStorage();
+
+        // Attach event handlers
         form.addEventListener("submit", this._newWorkout.bind(this));
 
         containerWorkouts.addEventListener("click", this._moveToPopup.bind(this));
@@ -129,7 +134,14 @@ class App {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
         }).addTo(this.#map);
 
+        // Handling clicks on map
         this.#map.on("click", this._showForm.bind(this));
+
+        // Render workouts
+        this.#workouts.forEach((workout) => {
+            this._renderWorkout(workout);
+            this._renderWorkoutMarker(workout);
+        });
     }
 
     /**
@@ -194,14 +206,17 @@ class App {
         // Add new object to workout array
         this.#workouts.push(workout);
 
-        // Clear input fields and hide form
-        this._hideForm();
+        // Render workout on list
+        this._renderWorkout(workout);
 
         // Render workout on map as marker
         this._renderWorkoutMarker(workout);
 
-        // Render workout on list
-        this._renderWorkout(workout);
+        // Clear input fields and hide form
+        this._hideForm();
+
+        // Set local storage to all workouts
+        this._setLocalStorage();
     }
 
     /**
@@ -276,6 +291,9 @@ class App {
         form.insertAdjacentHTML("afterend", html);
     }
 
+    /**
+     * Hide form and clear inputs
+     */
     _hideForm() {
         clearInputFields();
 
@@ -285,6 +303,10 @@ class App {
         setTimeout(() => (form.style.display = "grid"), 1000);
     }
 
+    /**
+     * Move map to the workout after selecting the workout on the list
+     * @param {Event} event - Click event from the selected workout
+     */
     _moveToPopup(event) {
         const workoutEl = event.target.closest(".workout");
 
@@ -298,6 +320,36 @@ class App {
                 duration: 1,
             },
         });
+    }
+
+    /**
+     * Set workouts in the local storage
+     */
+    _setLocalStorage() {
+        localStorage.setItem("workouts", JSON.stringify(this.#workouts));
+    }
+
+    /**
+     * Get workouts from local storage
+     */
+    _getLocalStorage() {
+        const data = localStorage.getItem("workouts");
+
+        if (data == undefined) return;
+
+        const workouts = JSON.parse(data);
+
+        if (workouts == undefined) return;
+
+        this.#workouts = workouts;
+    }
+
+    /**
+     * Reset local storage and reload the page
+     */
+    reset() {
+        localStorage.removeItem("workouts");
+        location.reload();
     }
 }
 
