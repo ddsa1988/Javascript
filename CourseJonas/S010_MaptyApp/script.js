@@ -21,13 +21,15 @@ class Workout {
      * @param {Array} coords - [latitude, longitude]
      * @param {Number} distance - kilometers
      * @param {Number} duration - minutes
+     * @param {Date} date - date
+     * @param {String} id - id
      */
-    constructor(coords, distance, duration) {
+    constructor(coords, distance, duration, date = new Date(), id = String(Date.now()).slice(-10)) {
         this.coords = coords;
         this.distance = distance;
         this.duration = duration;
-        this.date = new Date();
-        this.id = String(Date.now()).slice(-10);
+        this.date = date;
+        this.id = id;
     }
 
     _setDescription(type) {
@@ -47,9 +49,11 @@ class Running extends Workout {
      * @param {Number} distance - in kilometers
      * @param {Number} duration - in minutes
      * @param {Number} cadence - in step/min
+     * @param {Date} date - date
+     * @param {String} id - id
      */
-    constructor(coords, distance, duration, cadence) {
-        super(coords, distance, duration);
+    constructor(coords, distance, duration, cadence, date, id) {
+        super(coords, distance, duration, date, id);
         this.cadence = cadence;
         this.pace = this.getPace();
         this._setDescription(this.type);
@@ -73,9 +77,11 @@ class Cycling extends Workout {
      * @param {Number} distance - in kilometers
      * @param {Number} duration - in minutes
      * @param {Number} elevationGain - in meters
+     * @param {Date} date - date
+     * @param {String} id - id
      */
-    constructor(coords, distance, duration, elevationGain) {
-        super(coords, distance, duration);
+    constructor(coords, distance, duration, elevationGain, date, id) {
+        super(coords, distance, duration, date, id);
         this.elevationGain = elevationGain;
         this.speed = this.getSpeed();
         this._setDescription(this.type);
@@ -341,7 +347,29 @@ class App {
 
         if (workouts == undefined) return;
 
-        this.#workouts = workouts;
+        this.#workouts = workouts.map((workout) => {
+            if (workout.type == "running") {
+                return new Running(
+                    workout.coords,
+                    workout.distance,
+                    workout.duration,
+                    workout.cadence,
+                    new Date(workout.date),
+                    workout.id,
+                );
+            }
+
+            if (workout.type == "cycling") {
+                return new Cycling(
+                    workout.coords,
+                    workout.distance,
+                    workout.duration,
+                    workout.elevationGain,
+                    new Date(workout.date),
+                    workout.id,
+                );
+            }
+        });
     }
 
     /**
