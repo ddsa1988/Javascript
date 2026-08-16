@@ -87,7 +87,8 @@ a:visited {
 .workout__title {
     font-size: 1.7rem;
     font-weight: 600;
-    grid-column: 1 / -1;
+    /* grid-column: 1 / -1; */
+    grid-column: 1 / 4;
 }
 
 .workout__details {

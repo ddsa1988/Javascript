@@ -101,6 +101,7 @@ class App {
     #mapZoomLevel = 13;
     #mapEvent;
     #workouts = [];
+    #buttonsDeleteWorkout;
 
     constructor() {
         // Get user position
@@ -113,6 +114,8 @@ class App {
         form.addEventListener("submit", this._newWorkout.bind(this));
 
         containerWorkouts.addEventListener("click", this._moveToPopup.bind(this));
+
+        containerWorkouts.addEventListener("click", this._deleteWorkout.bind(this));
 
         inputType.addEventListener("change", this._toggleElevationField);
     }
@@ -253,6 +256,7 @@ class App {
         let html = `
                 <li class="workout workout--${workout.type}" data-id=${workout.id}>
                     <h2 class="workout__title">${workout.description}</h2>
+                    <button class="workout__btn--delete">Delete</button>
                     <div class="workout__details">
                         <span class="workout__icon">${workout.type === "running" ? "🏃‍♂️" : "🚴‍♀️"}</span>
                         <span class="workout__value">${workout.distance}</span>
@@ -318,9 +322,9 @@ class App {
 
         if (workoutEl == undefined) return;
 
-        const workout = this.#workouts.find((workout) => workout.id === workoutEl.dataset.id);
+        const workoutToMove = this.#workouts.find((workout) => workout.id === workoutEl.dataset.id);
 
-        this.#map.setView(workout.coords, this.#mapZoomLevel, {
+        this.#map.setView(workoutToMove.coords, this.#mapZoomLevel, {
             animate: true,
             pan: {
                 duration: 1,
@@ -332,6 +336,11 @@ class App {
      * Set workouts in the local storage
      */
     _setLocalStorage() {
+        if (this.#workouts.length === 0) {
+            localStorage.removeItem("workouts");
+            return;
+        }
+
         localStorage.setItem("workouts", JSON.stringify(this.#workouts));
     }
 
@@ -370,6 +379,21 @@ class App {
                 );
             }
         });
+    }
+
+    _deleteWorkout(event) {
+        const workoutEl = event.target.closest(".workout");
+        const btnDeleteEl = event.target.closest(".workout__btn--delete");
+
+        if (workoutEl == undefined) return;
+
+        if (btnDeleteEl == undefined) return;
+
+        this.#workouts = this.#workouts.filter((workout) => workout.id !== workoutEl.dataset.id);
+
+        this._setLocalStorage();
+
+        location.reload();
     }
 
     /**
