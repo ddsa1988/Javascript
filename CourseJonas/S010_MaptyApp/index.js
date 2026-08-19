@@ -22,9 +22,9 @@ class Workout {
      * @param {Number} distance - kilometers
      * @param {Number} duration - minutes
      * @param {Date} date - date
-     * @param {String} id - id
+     * @param {randomUUID} id - UUID
      */
-    constructor(coords, distance, duration, date = new Date(), id = String(Date.now()).slice(-10)) {
+    constructor(coords, distance, duration, date = new Date(), id = crypto.randomUUID()) {
         this.coords = coords;
         this.distance = distance;
         this.duration = duration;
@@ -50,7 +50,7 @@ class Running extends Workout {
      * @param {Number} duration - in minutes
      * @param {Number} cadence - in step/min
      * @param {Date} date - date
-     * @param {String} id - id
+     * @param @param {randomUUID} id - UUID
      */
     constructor(coords, distance, duration, cadence, date, id) {
         super(coords, distance, duration, date, id);
@@ -78,7 +78,7 @@ class Cycling extends Workout {
      * @param {Number} duration - in minutes
      * @param {Number} elevationGain - in meters
      * @param {Date} date - date
-     * @param {String} id - id
+     * @param {randomUUID} id - UUID
      */
     constructor(coords, distance, duration, elevationGain, date, id) {
         super(coords, distance, duration, date, id);
@@ -199,6 +199,8 @@ class App {
             }
 
             workout = new Running([latitude, longitude], distance, duration, cadence);
+
+            console.log(workout.id);
         }
 
         // Create cycling object
