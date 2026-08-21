@@ -9,17 +9,8 @@ const countriesContainer = document.querySelector(".countries");
 // NEW REVERSE GEOCODING API URL (use instead of the URL shown in videos):
 // https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lng}
 
-const getCountryData = function (country) {
-    const request = new XMLHttpRequest();
-
-    request.open("GET", `https://countries.dev/name/${country}`);
-    request.send();
-
-    request.addEventListener("load", function () {
-        const [data] = JSON.parse(this.responseText);
-        console.log(data);
-
-        const html = `
+const renderCountry = function (data) {
+    const html = `
             <article class="country">
                 <img class="country__img" src="${data.flags.svg}" />
                     <div class="country__data">
@@ -31,8 +22,20 @@ const getCountryData = function (country) {
                     </div>
             </article> `;
 
-        countriesContainer.insertAdjacentHTML("afterend", html);
-        countriesContainer.style.opacity = 1;
+    countriesContainer.insertAdjacentHTML("afterend", html);
+    countriesContainer.style.opacity = 1;
+};
+
+const getCountryData = function (country) {
+    const request = new XMLHttpRequest();
+
+    request.open("GET", `https://countries.dev/name/${country}`);
+    request.send();
+
+    request.addEventListener("load", function () {
+        const [data] = JSON.parse(this.responseText);
+        console.log(data);
+        renderCountry(data);
     });
 };
 
