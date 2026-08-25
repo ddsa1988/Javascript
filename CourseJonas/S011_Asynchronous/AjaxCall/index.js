@@ -33,9 +33,10 @@ const getCountryData = function (country) {
     request.send();
 
     request.addEventListener("load", function () {
-        const [data] = JSON.parse(this.responseText);
-        console.log(data);
-        renderCountry(data);
+        const [country] = JSON.parse(this.responseText);
+
+        console.log(country);
+        renderCountry(country);
     });
 };
 
