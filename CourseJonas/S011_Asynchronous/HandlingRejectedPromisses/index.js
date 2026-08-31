@@ -26,55 +26,22 @@ const renderCountry = function (data, className = "") {
     countriesContainer.style.opacity = 1;
 };
 
-const getJson = function (url, errorMsg = "Something went wrong") {
-    return fetch(url).then((response) => {
-        if (!response.ok) {
-            throw new Error(`${errorMsg} (${response.status})`);
-        }
-
-        return response.json();
-    });
-};
-
 const getCountryData = function (country) {
     const request = fetch(`https://countries.dev/name/${country}`);
-
-    console.log(request);
 
     request
         .then((response) => {
             console.log(response);
 
             if (!response.ok) {
-                throw new Error(`Country not found (${response.status})`);
+                throw new Error(`Country not found: ${response.status}.`);
             }
 
             return response.json();
         })
         .then((data) => {
             const [country] = data;
-
-            console.log(data);
-            console.log(country);
-
             renderCountry(country);
-
-            const neighbors = country.borders;
-
-            if (neighbors == undefined) return;
-
-            neighbors.forEach((neighbor) => {
-                fetch(`https://countries.dev/alpha/${neighbor}?fields=name%2Ccapital%2Cflag&full=true`)
-                    .then((response) => {
-                        if (!response.ok) {
-                            throw new Error(`Country not found (${response.status})`);
-                        }
-
-                        return response.json();
-                    })
-                    .then((data) => renderCountry(data, "neighbor"))
-                    .catch((err) => console.error(`An error occurred: ${err.message}`));
-            });
         })
         .catch((err) => console.error(`An error occurred: ${err.message}`));
 };
