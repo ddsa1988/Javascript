@@ -25,25 +25,3 @@ const renderCountry = function (data, className = "") {
     countriesContainer.insertAdjacentHTML("beforeend", html);
     countriesContainer.style.opacity = 1;
 };
-
-const getCountryData = function (country) {
-    const request = fetch(`https://countries.dev/name/${country}`);
-
-    request
-        .then((response) => {
-            console.log(response);
-
-            if (!response.ok) {
-                throw new Error(`Country not found: ${response.status}.`);
-            }
-
-            return response.json();
-        })
-        .then((data) => {
-            const [country] = data;
-            renderCountry(country);
-        })
-        .catch((error) => console.error(`An error occurred: ${error.message}`));
-};
-
-getCountryData("mexico");

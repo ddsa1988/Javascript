@@ -73,7 +73,7 @@ const getCountryData = function (country) {
                         return response.json();
                     })
                     .then((data) => renderCountry(data, "neighbor"))
-                    .catch((err) => console.error(`An error occurred: ${err.message}`));
+                    .catch((error) => console.error(`An error occurred: ${error.message}`));
             });
         })
         .catch((err) => console.error(`An error occurred: ${err.message}`));
