@@ -30,9 +30,7 @@ const renderCountry = function (data, className = "") {
 };
 
 const whereAmI = function (latitude, longitude) {
-    const countryName = fetch(
-        `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}`,
-    )
+    fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${latitude}&longitude=${longitude}`)
         .then((response) => {
             if (!response.ok) {
                 throw new Error(`Failed to fetch coordinates (${response.status}) `);
@@ -47,46 +45,39 @@ const whereAmI = function (latitude, longitude) {
                 throw new Error("Failed to get the country name.");
             }
 
-            return countryName;
+            return fetch(`https://countries.dev/name/${countryName}`);
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error(`Failed to fetch country name (${response.status}) `);
+            }
+
+            return response.json();
+        })
+        .then((data) => {
+            const [country] = data;
+            renderCountry(country);
+
+            const neighbors = country.borders;
+
+            if (neighbors == undefined) return;
+
+            neighbors.forEach((neighbor) => {
+                fetch(`https://countries.dev/alpha/${neighbor}?fields=name%2Ccapital%2Cflag&full=true`)
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error(`Country not found (${response.status})`);
+                        }
+
+                        return response.json();
+                    })
+                    .then((data) => renderCountry(data, "neighbor"))
+                    .catch((error) => console.error(`An error occurred: ${error.message}`));
+            });
         })
         .catch((error) => {
             console.error(`Something went wrong: ${error.message}`);
         });
-
-    countryName.then((country) => {
-        fetch(`https://countries.dev/name/${country}`)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch country name (${response.status}) `);
-                }
-
-                return response.json();
-            })
-            .then((data) => {
-                const [country] = data;
-                renderCountry(country);
-
-                const neighbors = country.borders;
-
-                if (neighbors == undefined) return;
-
-                neighbors.forEach((neighbor) => {
-                    fetch(`https://countries.dev/alpha/${neighbor}?fields=name%2Ccapital%2Cflag&full=true`)
-                        .then((response) => {
-                            if (!response.ok) {
-                                throw new Error(`Country not found (${response.status})`);
-                            }
-
-                            return response.json();
-                        })
-                        .then((data) => renderCountry(data, "neighbor"))
-                        .catch((error) => console.error(`An error occurred: ${error.message}`));
-                });
-            })
-            .catch((error) => {
-                console.error(`Something went wrong: ${error.message}`);
-            });
-    });
 };
 
 btn.addEventListener("click", function (event) {
